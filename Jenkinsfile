@@ -1,4 +1,4 @@
-peline {
+pipeline {
      environment {
        IMAGE_NAME = "alpinehelloworld"
        IMAGE_TAG = "latest"
@@ -47,7 +47,7 @@ peline {
              }
           }
      }
-    stage('Push image on dockerhub') {
+     stage('Push image on dockerhub') {
            agent any 
            environment {
                 DOCKERHUB_LOGIN = credentials('dockerhub_soum')
@@ -82,7 +82,10 @@ peline {
           }
         }
      }
-	 stage('Test container in staging') {
+     stage('Test Staging deployment') {
+       when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
            agent any
            steps {
               script {
@@ -92,7 +95,6 @@ peline {
               }
            }
       }
-	  
      stage('Push image in production and deploy it') {
        when {
               expression { GIT_BRANCH == 'origin/master' }
@@ -112,16 +114,18 @@ peline {
           }
         }
      }
-	 stage('Test container in staging') {
+     stage('Test Prod deployment') {
+       when {
+              expression { GIT_BRANCH == 'origin/master' }
+            }
            agent any
            steps {
               script {
                 sh '''
-                    curl https://${PRODUCTION}.herokuapp.com | grep -q "Hello world| grep -q "Hello world"
+                    curl https://${PRODUCTION}.herokuapp.com | grep -q "Hello world"
                 '''
               }
            }
       }
-	  
   }
 }

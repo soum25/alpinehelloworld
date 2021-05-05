@@ -1,9 +1,7 @@
-pipeline  {
+peline  {
      environment {
        IMAGE_NAME = "alpinehelloworld"
        IMAGE_TAG = "latest"
-       STAGING = "vafemoh-staging"
-       PRODUCTION = "vafemoh-production"
        IMAGE_REPO = "soum25"
      }
      agent none
@@ -53,5 +51,4 @@ pipeline  {
             }
         }
     }
-}
 }

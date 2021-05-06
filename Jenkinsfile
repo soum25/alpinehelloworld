@@ -30,7 +30,7 @@ pipeline  {
 			steps {
 				script {
 					sh '''
-					var=$(curl http://172.17.0.1:5000)
+					var=$(curl http://172.17.0.1)
 					if [ "$var" = 'Hello world!' ]; then exit 0; else exit 1; fi
 					'''
 				}
